@@ -11,10 +11,10 @@ const createModel = () => {
 
 const createModelWrapper = jsModel => {
     function observeModelDeep(observer, root) {
-        if (!root || typeof root !== 'object') return
+        if (!root || typeof root !== 'object') return root
         for (let propName in root) {
             if (root.hasOwnProperty(propName)) {
-                observeModelDeep(observer, root[propName])
+                root[propName] = observeModelDeep(observer, root[propName])
             }
         }
         return new Proxy(root, observer)
